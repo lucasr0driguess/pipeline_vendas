@@ -1,5 +1,5 @@
-import pandas as pd
-import datetime
+import pandas as pd # pyright: ignore[reportMissingModuleSource]
+
 
 class Transformation():
 
@@ -41,5 +41,5 @@ class Transformation():
             return data_base
         except Exception as e:
             print('Erro ao tentar tratar a base de dados')
-            
+
             

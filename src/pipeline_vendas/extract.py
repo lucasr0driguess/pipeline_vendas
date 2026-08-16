@@ -1,4 +1,4 @@
-import pandas as pd
+import pandas as pd # pyright: ignore[reportMissingModuleSource]
 from pathlib import Path
 
 
@@ -32,9 +32,11 @@ class Extract:
 
 if __name__ == '__main__':
     e = Extract()
-    c,p,v = e.extraction_df()
+    base = e.extraction_df()
 
-    print(c.head())
-    print(p.head())
-    print(v.head())
+    print(base.get('clientes').head())
+    print(base.get('produtos').head())
+    print(base.get('vendas').head())
+    
+
     
