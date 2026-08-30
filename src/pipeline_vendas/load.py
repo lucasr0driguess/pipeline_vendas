@@ -1,15 +1,16 @@
-import pandas as pd # pyright: ignore[reportMissingModuleSource]
-from sqlalchemy import create_engine # pyright: ignore[reportMissingImports]
-from pipeline_vendas.config import Settings
+import logging
+import pandas as pd 
+from sqlalchemy import create_engine 
+from config import Settings
 
-
+logger = logging.getLogger(__name__)
 class Load:
 
     def __init__(self):
         self.engine = create_engine(Settings.DB_URL)
 
-    def load_clientes(self,data: pd.DataFrame) -> None:
-
+    def __load_clientes(self,data: pd.DataFrame) -> None:
+        logger.info(f'Carregando {len(data)} clientes para o banco de dados')
         data.to_sql(
             name='clientes',
             con=self.engine,
@@ -18,46 +19,41 @@ class Load:
         )
 
 
-    def load_produtos(self,data: pd.DataFrame) -> None:
+    def __load_produtos(self,data: pd.DataFrame) -> None:
+        logger.info(f'Carregando {len(data)} produtos para o banco de dados')
 
         data.to_sql(
             name='produtos',
-            con=Load.engine,
+            con=self.engine,
             if_exists='append',
             index=False
         )
 
-    def load_vendas(self, data: pd.DataFrame) -> None:
+    def __load_vendas(self, data: pd.DataFrame) -> None:
+        logger.info(f'Carregando {len(data)} vendas para o banco de dados')
 
         data.to_sql(
                 name='vendas',
-                con=Load.engine,
+                con=self.engine,
                 if_exists='append',
                 index=False
             )
 
-    def load_data_base(self,data_base: dict[str,pd.DataFrame]):
+    def load_database(self,data_base: dict[str,pd.DataFrame]):
 
-        self.load_clientes(data_base.get('clientes'))
-        self.load_produtos(data_base.get('produtos'))
-        self.load_vendas(data_base.get('vendas'))
 
-        print('A base de dados foi carregada com sucesso')
-        
+        try:
+            self.__load_clientes(data_base.get('clientes'))
+            self.__load_produtos(data_base.get('produtos'))
+            self.__load_vendas(data_base.get('vendas'))
+
+            logger.info('A base de dados foi carregada com sucesso')
+        except:
+            logger.exception('Erro ao carregar a base de dados')
+            raise
         
         
 
 
 if __name__ == '__main__':
-    teste = Load()
-    
-    dados = {
-        'cliente_id': [4],
-        'nome': ['Julia'],
-        'cidade': ['Goiania'],
-        'estado': ['GO'],
-    }
-
-    df = pd.DataFrame(dados)
-    
-    teste.load_clientes(df)
+    pass

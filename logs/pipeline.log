@@ -1,0 +1,22 @@
+2026-08-29 22:30:02,839 | INFO | extract | Iniciando extração do arquivo csv
+2026-08-29 22:30:02,843 | INFO | extract | clientes.csv carregado com 3 registros
+2026-08-29 22:30:02,845 | INFO | extract | produtos.csv carregado com 3 registros
+2026-08-29 22:30:02,846 | INFO | extract | vendas.csv carregado com 3 registros
+2026-08-29 22:30:02,846 | INFO | extract | Extração concluida
+2026-08-29 22:30:02,847 | INFO | transform | Iniciando transformação de clientes.csv
+2026-08-29 22:30:02,847 | INFO | transform | Tratando elementos nulos de clientes
+2026-08-29 22:30:02,849 | INFO | transform | Conversão de tipagem de clientes
+2026-08-29 22:30:02,850 | INFO | transform | Clientes: 3 → 3 registros
+2026-08-29 22:30:02,850 | INFO | transform | Iniciando transformação de vendas.csv
+2026-08-29 22:30:02,850 | INFO | transform | Tratando elementos nulos de vendas
+2026-08-29 22:30:02,851 | INFO | transform | Conversão de tipagem de vendas
+2026-08-29 22:30:02,855 | INFO | transform | Vendas: 3 → 3 registros
+2026-08-29 22:30:02,855 | INFO | transform | Iniciando transformação de produtos.csv
+2026-08-29 22:30:02,855 | INFO | transform | Tratando elementos nulos de produtos
+2026-08-29 22:30:02,856 | INFO | transform | Conversão de tipagem de produtos
+2026-08-29 22:30:02,856 | INFO | transform | Produtos: 3 → 3 registros
+2026-08-29 22:30:02,856 | INFO | transform | Tratamento concluido
+2026-08-29 22:30:02,857 | INFO | load | Carregando 3 clientes para o banco de dados
+2026-08-29 22:30:02,966 | INFO | load | Carregando 3 produtos para o banco de dados
+2026-08-29 22:30:02,970 | INFO | load | Carregando 3 vendas para o banco de dados
+2026-08-29 22:30:02,975 | INFO | load | A base de dados foi carregada com sucesso
