@@ -5,10 +5,10 @@ services:
       - '${DB_PORT}:5432'
     environment:
       POSTGRES_USER: ${USER_DB}
-      POSTGRES_PASSWORD: ${PASSWORD_DB} 
+      POSTGRES_PASSWORD: ${DB_PASSWORD} 
       POSTGRES_DB: ${NAME_DB}
     volumes:
-      - /var/lib/postgresql/data
+      - /var/lib/postgresql
     networks:
       - pgnetwork
 
@@ -17,7 +17,7 @@ services:
     container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${ADMIN_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${ADMIN_PASSWORD}
+      PGADMIN_DEFAULT_PASSWORD: ${ADMIN_PASSwORD}
     ports:
       - '${ADMIN_PORT}:80'
     depends_on:
