@@ -1,6 +1,6 @@
 import logging
 import pandas as pd 
-from sqlalchemy import create_engine 
+from sqlalchemy import create_engine, text 
 from config import Settings
 
 logger = logging.getLogger(__name__)
@@ -11,33 +11,91 @@ class Load:
 
     def __load_clientes(self,data: pd.DataFrame) -> None:
         logger.info(f'Carregando {len(data)} clientes para o banco de dados')
-        data.to_sql(
-            name='clientes',
-            con=self.engine,
-            if_exists='append',
-            index=False
-        )
+
+        query = text("""
+            INSERT INTO clientes (
+                cliente_id,
+                nome,
+                cidade,
+                estado
+            ) VALUES (
+                :cliente_id,
+                :nome,
+                :cidade,
+                :estado
+            ) 
+            ON CONFLICT (cliente_id)
+                DO UPDATE SET
+                nome = EXCLUDED.nome,
+                cidade = EXCLUDED.cidade,
+                estado = EXCLUDED.estado
+        """)
+
+        data = data.to_dict(orient='records')
+
+
+        with self.engine.begin() as conn:
+            conn.execute(query,data)
 
 
     def __load_produtos(self,data: pd.DataFrame) -> None:
         logger.info(f'Carregando {len(data)} produtos para o banco de dados')
 
-        data.to_sql(
-            name='produtos',
-            con=self.engine,
-            if_exists='append',
-            index=False
-        )
+        query = text("""
+            INSERT INTO produtos (
+                produto_id,
+                nome,
+                categoria,
+                preco
+            ) VALUES (
+                :produto_id,
+                :nome,
+                :categoria,
+                :preco
+            ) 
+            ON CONFLICT (produto_id)
+                DO UPDATE SET
+                nome = EXCLUDED.nome,
+                categoria = EXCLUDED.categoria,
+                preco = EXCLUDED.preco
+        """)
+        
+        data = data.to_dict(orient='records')
+        
+        
+        with self.engine.begin() as conn:
+                    conn.execute(query,data)
 
     def __load_vendas(self, data: pd.DataFrame) -> None:
         logger.info(f'Carregando {len(data)} vendas para o banco de dados')
 
-        data.to_sql(
-                name='vendas',
-                con=self.engine,
-                if_exists='append',
-                index=False
-            )
+        query = text("""
+                    INSERT INTO vendas (
+                        venda_id,
+                        data,
+                        cliente_id,
+                        produto_id,
+                        quantidade
+                    ) VALUES (
+                        :venda_id,
+                        :data,
+                        :cliente_id,
+                        :produto_id,
+                        :quantidade
+                    ) 
+                    ON CONFLICT (venda_id)
+                        DO UPDATE SET
+                        data = EXCLUDED.data,
+                        cliente_id = EXCLUDED.cliente_id,
+                        produto_id = EXCLUDED.produto_id,
+                        quantidade = EXCLUDED.quantidade
+                """)
+
+        data = data.to_dict(orient='records')
+                
+                
+        with self.engine.begin() as conn:
+            conn.execute(query,data)
 
     def load_database(self,data_base: dict[str,pd.DataFrame]):
 
